@@ -132,7 +132,6 @@ function drawChar(canvas, ch) {
   var vertstart = canvas.width() / 2 - emHeightAscent / 2;
   var vert = computeGuides('vert', vertstart, vertstart + emHeightAscent, 4);
   var guides = horz.concat(vert);
-  console.log(guides);
   guides.filter(function(i) { return !i.special; })
     .forEach(function(i) { drawGuide(canvas, i.direction, i.value, 1, '#bbb'); });
   guides.filter(function(i) { return i.special; })
