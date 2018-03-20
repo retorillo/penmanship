@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "browserify": "^16.1.1",
+    "canvas-text-metrics-polyfill": "git+https://github.com/motiz88/canvas-text-metrics-polyfill.git",
+    "jquery": "^3.3.1",
+    "knockout": "^3.5.0-beta",
+    "less": "^3.0.1",
+    "popper.js": "^1.14.1",
+    "pug-cli": "^1.0.0-alpha6",
+    "string.fromcodepoint": "git+https://github.com/mathiasbynens/String.fromCodePoint.git",
+    "uglify-js": "^3.3.16",
+    "uglify-js-es6": "^2.8.9",
+    "uglifycss": "0.0.28"
+  }
+}
