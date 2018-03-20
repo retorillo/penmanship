@@ -13,6 +13,8 @@ const viewmodel = {};
 const canvasWidth = 300;
 const canvasHeight = 300;
 var baseline = 0;
+var emHeightAscent = 0;
+var emHeightDescent = 0;
 var baselineReferenceCharacter = 'X';
 var fontSizeMultiplier = 0.8;
 
@@ -94,7 +96,15 @@ function drawGuide(canvas, direction, value, thickness, style) {
   ctx.stroke();
   ctxw.restore();
 }
-
+function computeGuides(direction, start, end, divide) {
+  var guides = [];
+  guides.push({ direction: direction, value: start, special: 'start' });
+  guides.push({ direction: direction, value: end, special: 'end' });
+  var step = (end - start) / divide;
+  for (var c = 1; c < divide; c++) 
+    guides.push({ direction: direction, value: Math.round(start + step * c) });
+  return guides;
+}
 function createCanvas(){
   return $("<canvas>")
     .attr('width', canvasWidth)
@@ -106,7 +116,9 @@ function computeBaseline(canvas_height, ref) {
   var height = Math.round(canvas_height * fontSizeMultiplier);
   ctx.font = [height + 'px', fontFamily].join(' ');
   var metric = ctx.measureText(ref);
-  return Math.round((canvas_height + metric.emHeightAscent + metric.emHeightDescent) / 2);
+  emHeightAscent = metric.emHeightAscent;
+  emHeightDescent = metric.emHeightDescent;
+  return Math.round((canvas_height + emHeightAscent + emHeightDescent) / 2);
 }
 function drawChar(canvas, ch) {
   var ctx = canvas.get(0).getContext('2d');
@@ -115,9 +127,16 @@ function drawChar(canvas, ch) {
   ctxw.set('font', [height + 'px', fontFamily].join(' '));
   ctxw.set('textAlign', 'center');
   ctxw.set('fillStyle', '#555');
-  var metric = ctx.measureText(ch);
-  drawGuide(canvas, 'vert', canvas.width() / 2, 1, '#aaa');
-  drawGuide(canvas, 'horz', baseline, 1, '#008');
+
+  var horz = computeGuides('horz', baseline, baseline - emHeightAscent, 4);
+  var vertstart = canvas.width() / 2 - emHeightAscent / 2;
+  var vert = computeGuides('vert', vertstart, vertstart + emHeightAscent, 4);
+  var guides = horz.concat(vert);
+  console.log(guides);
+  guides.filter(function(i) { return !i.special; })
+    .forEach(function(i) { drawGuide(canvas, i.direction, i.value, 1, '#bbb'); });
+  guides.filter(function(i) { return i.special; })
+    .forEach(function(i) { drawGuide(canvas, i.direction, i.value, 1, '#028'); });
   ctx.fillText(ch, canvas.width() / 2, baseline);
   ctxw.restore();
 }

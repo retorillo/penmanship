@@ -8,12 +8,12 @@ html
     script(type="text/javascript" src="dist/index.min.js")
   body
     div(class="container")
-      h1 penmanship
+      h1(class="text-center") penmanship
       p(id="description")
-        | 文字を中心線とベースラインを加えて画像として描画するだけのアプリです。
+        | ベースラインとアセントを基準としたグリッド上に指定した文字を表示できます。
         | 手書き文字の練習・参照用などにご利用いただけます。
         | 游ゴシックでの表示を想定しておりWindows 10またはMac OS Sierra以降のみ対応、
-        | IE, Edge, Firefox, Chrome 最新版で動作確認しています。
+        | Internet Explorer、Firefox、Chromeの最新版で動作確認しています。
     input(data-bind="value: text"
         placeholder="テキストを入力するかボタンをクリックしてください")
     div(class="container")
